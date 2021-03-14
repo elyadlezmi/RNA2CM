@@ -2,7 +2,7 @@
 RNA2CM is a tool for the identification of cancer-related mutations from RNA-seq data
 
 ## Installation
-1| Nextflow and Docker (Singularity for execution on SLURM-clusters) are the only pre-requisites for the RNA2CM tool. Install both if needed and make sure they are properly running on your system. If the following commands to not generate any error message you are good to go.
+1| Nextflow and Docker (Singularity for execution on SLURM-clusters) are the only pre-requisites for the RNA2CM tool. Install both if needed and make sure they are properly running on your system. If the following commands do not generate any error message you are good to go.
 ```bash
 nextflow run hello # test that nextflow is working
 docker run hello-world # test that docker is working
