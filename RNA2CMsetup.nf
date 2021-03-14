@@ -27,8 +27,8 @@ The files can be downloaded at https://cancer.sanger.ac.uk/cosmic/download
 
 } else {    
 
-    file($projectDir/data/GRCh).mkdir()
-    file($projectDir/data/GRCm).mkdir()
+    file("$projectDir/data/GRCh").mkdir()
+    file("$projectDir/data/GRCm").mkdir()
 
     process downloadHumanGTF {
         
