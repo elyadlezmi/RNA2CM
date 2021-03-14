@@ -9,7 +9,7 @@ docker run hello-world # test that docker is working
 ```
 2| Download and extract the project directory (using either git or wget):
 ```bash
-git clone elyadlezmi/RNA2CM # clone the project using git
+git clone https://github.com/elyadlezmi/RNA2CM.git # clone the project using git
 ```
 or
 ```bash
