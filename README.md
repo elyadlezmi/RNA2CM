@@ -13,7 +13,7 @@ git clone https://github.com/elyadlezmi/RNA2CM.git # clone the project using git
 ```
 or
 ```bash
-wget https://github.com/elyadlezmi/RNA2CM/archive/master.zip && unzip master.zip
+wget https://github.com/elyadlezmi/RNA2CM/archive/master.zip && unzip master.zip && mv RNA2CM-master RNA2CM  
 ```
 3| Download the files CosmicMutantExportCensus.tsv.gz and CosmicCodingMuts.vcf.gz from the COSMIC website (login required), then move them into the project’s subdirectory named data (RNA2CM/data). 
 4| Execute the script named RNA2CMsetup.nf which is responsible for setting up all the reference data. This script can take two optional parameters:
