@@ -21,17 +21,17 @@ wget https://github.com/elyadlezmi/RNA2CM/archive/master.zip && unzip master.zip
 --readLength: The expected Illumina read length for optimal alignment by STAR (int, default 100). 
 Example for running the setup using 4 CPU and with a read length of 75bp:
 ```bash
-RNA2CMsetup.nf --cpu 4 --readLength 75
+nextflow RNA2CMsetup.nf --cpu 4 --readLength 75
 ```
-This and the following examples assume that both the RNA2CM directory, and the Nextflow executable are within your PATH variable. If not, you should state the absolute paths in your commands. e.g. if both are located in  /Home, type:
+This and the following examples assume that both the RNA2CM directory, and the Nextflow executable are within your PATH variable. If not, you should state the absolute paths in your commands. e.g. if nextflow is located in /Home/apps and the project is located in Home/bioinformatics, type:
 ```bash
-/Home/nextflow /Home/RNA2CM/RNA2CMsetup.nf --cpu 4 --readLength 75
+/Home/apps/nextflow Home/bioinformatics/RNA2CM/RNA2CMsetup.nf --cpu 4 --readLength 75
 ```
 
 ## Usage
 ```bash
-RNA2CM.nf --fastq your_sample.fastq.gz # for single-end reads
-RNA2CM.nf --fastq your_sample_1.fastq.gz --fastq2 your_sample_2.fastq.gz # for paired-ends reads
+nextflow RNA2CM.nf --fastq your_sample.fastq.gz # for single-end reads
+nextflow RNA2CM.nf --fastq your_sample_1.fastq.gz --fastq2 your_sample_2.fastq.gz # for paired-ends reads
 ```
 Optional arguments (Note that the only required are RNA-seq reads and output is generated into the working directory):
 --cpu: The number of threads for multi-threading (int, default 8).
@@ -40,9 +40,9 @@ Optional arguments (Note that the only required are RNA-seq reads and output is 
 -profile: Choose the executor profile between a standard dockerized usage on a local workstation, usage on a SLURM cluster (requires Singularity instead of Docker) or a fully local execution which is the least recommended option (standard/cluster/local, default: standard).
 Example for a paired-ends RNA-seq run, using 4 CPUs, keeping intermediate files:
 ```bash
-$ RNA2CM.nf --fastq esc_1.fastq.gz --fastq2 esc_2.fastq.gz --cpu 4 --keepInter true 
+nextflow RNA2CM.nf --fastq esc_1.fastq.gz --fastq2 esc_2.fastq.gz --cpu 4 --keepInter true 
 ```
 Example for a single-ends RNA-seq run, skipping mouse read filtration and running on a SLURM cluster:
 ```bash
-RNA2CM.nf --fastq SRR3090631.fastq.gz --filterMouse false -profile cluster
+nextflow RNA2CM.nf --fastq SRR3090631.fastq.gz --filterMouse false -profile cluster
 ```
