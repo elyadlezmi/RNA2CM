@@ -53,6 +53,7 @@ The files can be downloaded at https://cancer.sanger.ac.uk/cosmic/download
         """
         wget $fasta
         gunzip GRCh38.primary_assembly.genome.fa.gz
+        mkdir $projectDir/data/GRCh
         """ }
 
     process downloadMouseGenome {
@@ -69,6 +70,7 @@ The files can be downloaded at https://cancer.sanger.ac.uk/cosmic/download
         wget $fasta
         wget $gtf
         gunzip GRCm38.primary_assembly.genome.fa.gz gencode.vM25.primary_assembly.annotation.gtf.gz
+        mkdir $projectDir/data/GRCm
         """ }
 
     process downloadDBSNP {
