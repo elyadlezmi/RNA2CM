@@ -91,7 +91,7 @@ The files can be downloaded at https://cancer.sanger.ac.uk/cosmic/download
     process generateStarIndex {
         
         cpus params.cpu
-        memory '32GB'
+        memory '40GB'
             
         input:
         file fasta from fasta4Star
@@ -110,7 +110,7 @@ The files can be downloaded at https://cancer.sanger.ac.uk/cosmic/download
     process generateStarIndexMouse {
         
         cpus params.cpu
-        memory '32GB'
+        memory '40GB'
         
         input:
         file fasta from mouseFasta4Star
