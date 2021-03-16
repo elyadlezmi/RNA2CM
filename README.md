@@ -26,8 +26,11 @@ cd RNA2CM  # enter the project directory
 nextflow run setup.nf  # run the installation script
 ```
 The setup.nf script can take three optional arguments:
+
 -profile: Choose the executor profile between a standard dockerized usage on a local workstation or usage on a SLURM cluster (requires Singularity instead of Docker) (standard/cluster, default: standard).
+
 --cpu: The number of threads for multi-threading (int, default 8).
+
 --readLength: The expected Illumina read length for optimal alignment by STAR (int, default 100).
 
 ## Usage
