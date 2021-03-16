@@ -40,9 +40,13 @@ nextflow run elyadlezmi/RNA2CM --fastq your_sample.fastq.gz  # for single-end re
 nextflow run elyadlezmi/RNA2CM --fastq your_sample_1.fastq.gz --fastq2 your_sample_2.fastq.gz  # for paired-ends reads
 ```
 Optional arguments (Note that the only required arguments are RNA-seq reads, output is generated into the working directory):
+
 -profile: (standard/cluster, default: standard).
+
 --cpu: (int, default 8).
+
 --keepInter: Whether to keep intermediate alignment and VCF files (true/false, default: false). 
+
 --filterMouse: Whether to perform mouse contamination cleanup (true/false, default true).
 
 Example for a paired-ends RNA-seq run, using 4 CPUs, keeping intermediate files:
