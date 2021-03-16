@@ -115,7 +115,7 @@ if ( params.fastq2 == false ) {
         path "${prefix}Aligned.sortedByCoord.out.bam" into aligned2human
         
         """
-        STAR --runThreadN $params.cpu--genomeDir $genomeDir --readFilesIn $fastq1 $fastq2 --outFileNamePrefix ${prefix} --outSAMtype BAM SortedByCoordinate --readFilesCommand zcat --outSAMattributes NM --twopassMode Basic --outFilterMultimapNmax 1 --outFilterMismatchNoverLmax 0.1
+        STAR --runThreadN $params.cpu --genomeDir $genomeDir --readFilesIn $fastq1 $fastq2 --outFileNamePrefix ${prefix} --outSAMtype BAM SortedByCoordinate --readFilesCommand zcat --outSAMattributes NM --twopassMode Basic --outFilterMultimapNmax 1 --outFilterMismatchNoverLmax 0.1
         echo "\n\n\$(date) --- STAR\n" >> $launchDir/log.out
         cat ${prefix}Log.final.out >> $launchDir/log.out
         """ 
