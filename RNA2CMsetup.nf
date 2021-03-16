@@ -151,7 +151,7 @@ The files can be downloaded at https://cancer.sanger.ac.uk/cosmic/download
         path '*'
 
         """
-        /apps/gatk CreateSequenceDictionary -R $fasta 
+        /gatk-4.1.3.0/gatk CreateSequenceDictionary -R $fasta 
         """  }
        
     process createIntervals {
