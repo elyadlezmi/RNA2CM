@@ -23,7 +23,7 @@ wget https://github.com/elyadlezmi/RNA2CM/archive/master.zip && unzip master.zip
 
 --readLength: The expected Illumina read length for optimal alignment by STAR (int, default 100).
 
--profile: Choose the executor profile between a standard dockerized usage on a local workstation, usage on a SLURM cluster (requires Singularity instead of Docker) or a fully local execution which is the least recommended option (standard/cluster/local, default: standard).
+-profile: Choose the executor profile between a standard dockerized usage on a local workstation or usage on a SLURM cluster (requires Singularity instead of Docker) (standard/cluster, default: standard).
 
 Example for running the setup using 4 CPU and with a read length of 75bp:
 ```bash
