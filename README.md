@@ -29,9 +29,9 @@ Example for running the setup using 4 CPU and with a read length of 75bp:
 ```bash
 RNA2CMsetup.nf --cpu 4 --readLength 75
 ```
-This and the following examples assume that both the RNA2CM directory, and the Nextflow executable are within your PATH variable. If not, you should specify the nextflow interperter and state the absolute paths in your commands. e.g. if nextflow is located in /Home/apps and the project is located in Home/bioinformatics, type:
+This and the following examples assume that both the RNA2CM directory, and the Nextflow executable are within your PATH variable. If not, you should specify the nextflow interperter and state the absolute paths in your commands. e.g. if nextflow is located in /Home/apps and the project is located in /Home/bioinformatics, type:
 ```bash
-/Home/apps/nextflow Home/bioinformatics/RNA2CM/RNA2CMsetup.nf --cpu 4 --readLength 75
+/Home/apps/nextflow /Home/bioinformatics/RNA2CM/RNA2CMsetup.nf --cpu 4 --readLength 75
 ```
 
 ## Usage
@@ -39,7 +39,7 @@ This and the following examples assume that both the RNA2CM directory, and the N
 RNA2CM.nf --fastq your_sample.fastq.gz # for single-end reads
 RNA2CM.nf --fastq your_sample_1.fastq.gz --fastq2 your_sample_2.fastq.gz # for paired-ends reads
 ```
-Optional arguments (Note that the only required are RNA-seq reads and output is generated into the working directory):
+Optional arguments (Note that the only required arguments are RNA-seq reads, output is generated into the working directory):
 
 --cpu:(int, default 8).
 
