@@ -4,53 +4,49 @@ RNA2CM is a tool for the identification of cancer-related mutations from RNA-seq
 ## Installation
 1| Nextflow and Docker (Singularity for execution on SLURM-clusters) are the only pre-requisites for the RNA2CM tool. Install both if needed and make sure they are properly running on your system. If the following commands do not generate any error message you are good to go.
 ```bash
-nextflow run hello # test that nextflow is working
-docker run hello-world # test that docker is working if you are working on a local workstation
-singularity help # test that singularity is working in case your are working on a SLURM cluster
+nextflow run hello  # test that nextflow is working
+docker run hello-world  # test that docker is working if you are working on a local workstation
+singularity help  # test that singularity is working in case your are working on a SLURM cluster
 ```
 2| Download the project directory:
 ```bash
-git clone https://github.com/elyadlezmi/RNA2CM.git # clone the project using git
+git clone https://github.com/elyadlezmi/RNA2CM.git  # clone the project using git
 ```
 3| Download the files CosmicMutantExportCensus.tsv.gz and CosmicCodingMuts.vcf.gz from the COSMIC website (https://cancer.sanger.ac.uk/cosmic/download, login required), then move both files into the project’s subdirectory named data (RNA2CM/data).
 
-4| Execute the script named RNA2CMsetup.nf which is responsible for setting up all the reference data. This script can take two optional parameters:
+4| Execute the script named setup.nf which is responsible for setting up all the reference data and will complete the installation (this might take a while). The setup.nf script can take three optional arguments:
+
+-profile: Choose the executor profile between a standard dockerized usage on a local workstation or usage on a SLURM cluster (requires Singularity instead of Docker) (standard/cluster, default: standard).
 
 --cpu: The number of threads for multi-threading (int, default 8).
 
 --readLength: The expected Illumina read length for optimal alignment by STAR (int, default 100).
 
--profile: Choose the executor profile between a standard dockerized usage on a local workstation or usage on a SLURM cluster (requires Singularity instead of Docker) (standard/cluster, default: standard).
-
-Example for running the setup using 4 CPU and with a read length of 75bp:
 ```bash
-RNA2CMsetup.nf --cpu 4 --readLength 75
-```
-This and the following examples assume that both the RNA2CM directory, and the Nextflow executable are within your PATH variable. If not, you should specify the nextflow interperter and state the absolute paths in your commands. e.g. if nextflow is located in /Home/apps and the project is located in /Home/bioinformatics, type:
-```bash
-/Home/apps/nextflow /Home/bioinformatics/RNA2CM/RNA2CMsetup.nf --cpu 4 --readLength 75
+cd RNA2CM  # enter the project directory
+nextflow run setup.nf  # run the installation script
 ```
 
 ## Usage
 ```bash
-RNA2CM.nf --fastq your_sample.fastq.gz # for single-end reads
-RNA2CM.nf --fastq your_sample_1.fastq.gz --fastq2 your_sample_2.fastq.gz # for paired-ends reads
+nextflow run elyadlezmi/RNA2CM --fastq your_sample.fastq.gz  # for single-end reads
+nextflow run elyadlezmi/RNA2CM --fastq your_sample_1.fastq.gz --fastq2 your_sample_2.fastq.gz  # for paired-ends reads
 ```
 Optional arguments (Note that the only required arguments are RNA-seq reads, output is generated into the working directory):
 
---cpu:(int, default 8).
+-profile: (standard/cluster, default: standard).
 
---keepInter: Whether to keep intermediate alignment and VCF files (true/false, default: false) 
+--cpu: (int, default 8).
 
---filterMouse: Whether to perform mouse contamination cleanup (true/false, default true)
+--keepInter: Whether to keep intermediate alignment and VCF files (true/false, default: false). 
 
--profile: (standard/cluster/local, default: standard).
+--filterMouse: Whether to perform mouse contamination cleanup (true/false, default true).
 
 Example for a paired-ends RNA-seq run, using 4 CPUs, keeping intermediate files:
 ```bash
-RNA2CM.nf --fastq esc_1.fastq.gz --fastq2 esc_2.fastq.gz --cpu 4 --keepInter true 
+nextflow run elyadlezmi/RNA2CM --fastq esc_1.fastq.gz --fastq2 esc_2.fastq.gz --cpu 4 --keepInter true 
 ```
 Example for a single-ends RNA-seq run, skipping mouse read filtration and running on a SLURM cluster:
 ```bash
-RNA2CM.nf --fastq SRR3090631.fastq.gz --filterMouse false -profile cluster
+nextflow run elyadlezmi/RNA2CM --fastq SRR1234567.fastq.gz --filterMouse false -profile cluster
 ```
