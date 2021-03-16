@@ -5,17 +5,14 @@ RNA2CM is a tool for the identification of cancer-related mutations from RNA-seq
 1| Nextflow and Docker (Singularity for execution on SLURM-clusters) are the only pre-requisites for the RNA2CM tool. Install both if needed and make sure they are properly running on your system. If the following commands do not generate any error message you are good to go.
 ```bash
 nextflow run hello # test that nextflow is working
-docker run hello-world # test that docker is working
+docker run hello-world # test that docker is working if you are working on a local workstation
+singularity help # test that singularity is working in case your are working on a SLURM cluster
 ```
-2| Download and extract the project directory (using either git or wget):
+2| Download the project directory:
 ```bash
 git clone https://github.com/elyadlezmi/RNA2CM.git # clone the project using git
 ```
-or
-```bash
-wget https://github.com/elyadlezmi/RNA2CM/archive/master.zip && unzip master.zip && mv RNA2CM-master RNA2CM  
-```
-3| Download the files CosmicMutantExportCensus.tsv.gz and CosmicCodingMuts.vcf.gz from the COSMIC website (login required), then move them into the project’s subdirectory named data (RNA2CM/data).
+3| Download the files CosmicMutantExportCensus.tsv.gz and CosmicCodingMuts.vcf.gz from the COSMIC website (https://cancer.sanger.ac.uk/cosmic/download, login required), then move both files into the project’s subdirectory named data (RNA2CM/data).
 
 4| Execute the script named RNA2CMsetup.nf which is responsible for setting up all the reference data. This script can take two optional parameters:
 
