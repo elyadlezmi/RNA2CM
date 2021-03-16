@@ -35,7 +35,7 @@ if ( params.fastq2 == false ) {
     process alignToHumanGenomeSE {
           
         cpus params.cpu
-	memory '32GB'
+	memory '60GB'
         
         input:
         path fastq from trimmed
@@ -56,7 +56,7 @@ if ( params.fastq2 == false ) {
     process alignToMouseGenomeSE {
         
         cpus params.cpu
-	memory '32GB'
+	memory '60GB'
            
         input:
         path fastq from trimmed4mouse
@@ -104,7 +104,7 @@ if ( params.fastq2 == false ) {
     process alignToHumanGenomePE {
         
         cpus params.cpu
-	memory '32GB'
+	memory '60GB'
            
         input:
         path fastq1 from trimmed1
@@ -125,7 +125,7 @@ if ( params.fastq2 == false ) {
     process alignToMouseGenomePE {
         
         cpus params.cpu
-	memory '32GB'
+	memory '60GB'
                 
         input:
         path fastq1 from trimmed4mouse1
