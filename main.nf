@@ -16,6 +16,7 @@ if ( params.fastq2 == false ) {
     process trimmomaticSE {
         
         cpus params.cpu
+	memory '16GB'
         
         input:
         path fastq from Channel.fromPath("$launchDir/$params.fastq") 
@@ -81,7 +82,8 @@ if ( params.fastq2 == false ) {
     process trimmomaticPE {
         
         cpus params.cpu
-        
+        memory '16GB'
+	
         input:
         path fastq1 from Channel.fromPath("$launchDir/$params.fastq") 
         path fastq2 from Channel.fromPath("$launchDir/$params.fastq2") 
@@ -151,6 +153,7 @@ if ( params.filterMouse == true ) {
     	if (params.keepInter == true) {
         	publishDir "$launchDir", mode: 'copy'}
         cpus params.cpu
+	memory '16GB'
         
         input:
         path bam1 from aligned2human
@@ -173,9 +176,8 @@ if ( params.filterMouse == true ) {
 
     process skipXenofilteR {
         
-		if (params.keepInter == true) {
-        	publishDir "$launchDir", mode: 'copy'}
-        cpus params.cpu
+	if (params.keepInter == true) {
+            publishDir "$launchDir", mode: 'copy'}
         
         input:
         path bam from aligned2human
@@ -192,6 +194,8 @@ if ( params.filterMouse == true ) {
 
 process markDuplicates {
     
+    memory '16GB'
+    
     input:
     path bam from filteredBam
     file ligfile from log
@@ -206,6 +210,8 @@ process markDuplicates {
     
     
 process splitNcigar {
+    
+    memory '16GB'
     
     input:
     path bam from markedDuplicates
@@ -226,6 +232,8 @@ process splitNcigar {
     
 process addGroups {
     
+    memory '16GB'
+    
     input:
     path bam from splitN
     
@@ -241,6 +249,8 @@ process addGroups {
 
     
 process baseQualityRecalibration {
+    
+    memory '16GB'
     
     input:
     path bam from grouped4BQSR
@@ -263,6 +273,8 @@ process baseQualityRecalibration {
     
     
 process applyBQSR {
+    
+    memory '16GB'
     
     input:
     path table from recalTable
@@ -287,8 +299,9 @@ process applyBQSR {
 
 process callVariants {
     
-	if (params.keepInter == true) {
+    if (params.keepInter == true) {
         publishDir "$launchDir", mode: 'copy'}
+    memory '16GB'
     
     input:
     path bam from recalibrated
@@ -310,7 +323,9 @@ process callVariants {
 
     
 process hardFilter {
-      
+    
+    memory '16GB'
+    
     input:
     path vcf from variants
     path vcfIndex from variantsIndex
