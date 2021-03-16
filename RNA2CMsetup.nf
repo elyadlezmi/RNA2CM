@@ -141,7 +141,6 @@ The files can be downloaded at https://cancer.sanger.ac.uk/cosmic/download
         
     process createDictionery {
         
-        container "broadinstitute/gatk"
         publishDir "$projectDir/data", mode: 'copy'
         
         input:
@@ -152,7 +151,7 @@ The files can be downloaded at https://cancer.sanger.ac.uk/cosmic/download
         path '*'
 
         """
-        gatk CreateSequenceDictionary -R $fasta 
+        /apps/gatk CreateSequenceDictionary -R $fasta 
         """  }
        
     process createIntervals {
