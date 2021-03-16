@@ -54,7 +54,7 @@ Example for a paired-ends RNA-seq run, using 4 CPUs, keeping intermediate files:
 nextflow run elyadlezmi/RNA2CM --fastq esc_1.fastq.gz --fastq2 esc_2.fastq.gz --cpu 4 --keepInter true 
 ```
 
-Example for a single-ends RNA-seq run, skipping mouse read filtration and running on a SLURM cluster:
+Example for a single-end RNA-seq run, skipping mouse read filtration and running on a SLURM cluster:
 ```bash
 nextflow run elyadlezmi/RNA2CM --fastq SRR1234567.fastq.gz --filterMouse false -profile cluster
 ```
