@@ -2,7 +2,7 @@
 
 RNA2CM is a tool for the identification of cancer-related mutations from RNA-seq data
 
-(./data/scheme.jpg)
+![](./data/scheme.jpg)
 ## Pre-requisites 
 
 Nextflow and Docker (or Singularity for execution on SLURM-clusters) are the only pre-requisites for the RNA2CM tool. Install both if needed and make sure they are properly running on your system. If the following commands do not generate any error message you are good to go.
