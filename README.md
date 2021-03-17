@@ -23,8 +23,7 @@ git clone https://github.com/elyadlezmi/RNA2CM.git  # clone the project using gi
 
 3. Execute the script named setup.nf which is responsible for setting up all the reference data and will complete the installation (this might take a while).
 ```bash
-cd RNA2CM  # enter the project directory
-nextflow run setup.nf  # run the installation script
+nextflow run /path/to/RNA2CM/setup.nf  # run the installation script
 ```
 The setup.nf script can take three optional arguments:
 
@@ -37,8 +36,8 @@ The setup.nf script can take three optional arguments:
 ## Usage
 
 ```bash
-nextflow run elyadlezmi/RNA2CM --fastq your_sample.fastq.gz  # for single-end reads
-nextflow run elyadlezmi/RNA2CM --fastq your_sample_1.fastq.gz --fastq2 your_sample_2.fastq.gz  # for paired-ends reads
+nextflow run /path/to/RNA2CM --fastq your_sample.fastq.gz  # for single-end reads
+nextflow run /path/to/RNA2CM --fastq your_sample_1.fastq.gz --fastq2 your_sample_2.fastq.gz  # for paired-ends reads
 ```
 Optional arguments (Note that the only required arguments are RNA-seq reads, output is generated into the working directory):
 
@@ -52,10 +51,10 @@ Optional arguments (Note that the only required arguments are RNA-seq reads, out
 
 Example for a paired-ends RNA-seq run, using 4 CPUs, keeping intermediate files:
 ```bash
-nextflow run elyadlezmi/RNA2CM --fastq esc_1.fastq.gz --fastq2 esc_2.fastq.gz --cpu 4 --keepInter true 
+nextflow run /path/to/RNA2CM --fastq esc_1.fastq.gz --fastq2 esc_2.fastq.gz --cpu 4 --keepInter true 
 ```
 
 Example for a single-end RNA-seq run, skipping mouse read filtration and running on a SLURM cluster:
 ```bash
-nextflow run elyadlezmi/RNA2CM --fastq SRR1234567.fastq.gz --filterMouse false -profile cluster
+nextflow run /path/to/RNA2CM --fastq SRR1234567.fastq.gz --filterMouse false -profile cluster
 ```
