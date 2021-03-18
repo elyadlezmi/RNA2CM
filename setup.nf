@@ -1,6 +1,6 @@
 #!/usr/bin/env nextflow
 
-// pipeline for identification of cancer related mutations
+// Installation script
 
 humanGTF = Channel.value('ftp://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_34/gencode.v34.primary_assembly.annotation.gtf.gz')
 humanFasta = Channel.value('ftp://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_34/GRCh38.primary_assembly.genome.fa.gz')
