@@ -2,10 +2,6 @@
 
 // pipeline for identification of cancer related mutations
 
-params.cpu = 8
-params.readlength = '100'
-
-
 humanGTF = Channel.value('ftp://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_34/gencode.v34.primary_assembly.annotation.gtf.gz')
 humanFasta = Channel.value('ftp://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_34/GRCh38.primary_assembly.genome.fa.gz')
 mouseGTF = Channel.value('ftp://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_mouse/release_M25/gencode.vM25.primary_assembly.annotation.gtf.gz')
