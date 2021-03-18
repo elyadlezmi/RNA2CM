@@ -2,13 +2,6 @@
 
 // pipeline for identification of cancer related mutations
 
-params.fastq = ''
-params.fastq2 = false
-
-params.cpu = 8
-params.keepInter = true
-params.filterMouse = true
-
 if ( params.fastq2 == false ) {
 
     prefix = ("$params.fastq" =~ /(.+).fastq.gz/)[0][1]
