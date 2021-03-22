@@ -2,17 +2,27 @@
 
 // pipeline for identification of cancer related mutations
 
+params.fastq = ''
+params.fastq2 = false
+
+params.cpu = 8
+params.keepInter = true
+params.filterMouse = true
+
 if ( params.fastq2 == false ) {
 
-    prefix = ("$params.fastq" =~ /(.+).fastq.gz/)[0][1]
+    prefix = ("$params.fastq" =~ /(.+)\.(?:fastq.gz|fastq|fq|fq.gz)/)[0][1]
+    
+    if ( prefix.contains("/") ) {
+	    prefix = prefix.split("/").last() }
     
     process trimmomaticSE {
         
         cpus params.cpu
-	memory '16GB'
+	    memory '16GB'
         
         input:
-        path fastq from Channel.fromPath("$launchDir/$params.fastq") 
+        path fastq from Channel.fromPath("$params.fastq") 
         path adapters from Channel.fromPath("$projectDir/data/CommonAdapters.fa")
         
         output: 
@@ -20,8 +30,6 @@ if ( params.fastq2 == false ) {
         
         """
         java -jar /Trimmomatic-0.39/trimmomatic-0.39.jar SE -threads $params.cpu $fastq ${prefix}.trimmed.fastq.gz ILLUMINACLIP:${adapters}:2:30:10 LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 MINLEN:36
-        echo "\n\n\$(date) --- Trimmomatic\n" > $launchDir/log.out 
-        cat .command.log >> $launchDir/log.out
         """ 
     }
       
@@ -29,7 +37,7 @@ if ( params.fastq2 == false ) {
     process alignToHumanGenomeSE {
           
         cpus params.cpu
-	memory '48GB'
+		memory '48GB'
         
         input:
         path fastq from trimmed
@@ -41,8 +49,6 @@ if ( params.fastq2 == false ) {
         
         """
         STAR --runThreadN $params.cpu --genomeDir $genomeDir --readFilesIn $fastq --outFileNamePrefix ${prefix} --outSAMtype BAM SortedByCoordinate --readFilesCommand zcat --outSAMattributes NM --twopassMode Basic --outFilterMultimapNmax 1 --outFilterMismatchNoverLmax 0.1
-        echo "\n\n\$(date) --- STAR\n" >> $launchDir/log.out
-        cat ${prefix}Log.final.out >> $launchDir/log.out
         """
     }
 
@@ -50,7 +56,7 @@ if ( params.fastq2 == false ) {
     process alignToMouseGenomeSE {
         
         cpus params.cpu
-	memory '48GB'
+		memory '48GB'
            
         input:
         path fastq from trimmed4mouse
@@ -70,7 +76,11 @@ if ( params.fastq2 == false ) {
 
 } else {
 
-    prefix = ("$params.fastq" =~ /(.+)_\d.fastq.gz/)[0][1] 
+    prefix = ("$params.fastq" =~ /(.+)_*[a-zA-Z0-9]*\.(?:fastq.gz|fastq|fq|fq.gz)/)[0][1] 
+
+	if ( prefix.contains("/") ) {
+    	prefix = prefix.split("/").last() }
+
 
     process trimmomaticPE {
         
@@ -78,8 +88,8 @@ if ( params.fastq2 == false ) {
         memory '16GB'
 	
         input:
-        path fastq1 from Channel.fromPath("$launchDir/$params.fastq") 
-        path fastq2 from Channel.fromPath("$launchDir/$params.fastq2") 
+        path fastq1 from Channel.fromPath("$params.fastq") 
+        path fastq2 from Channel.fromPath("$params.fastq2") 
         path adapters from Channel.fromPath("$projectDir/data/CommonAdapters.fa")
          
         output: 
@@ -90,8 +100,6 @@ if ( params.fastq2 == false ) {
         
         """
         java -jar /Trimmomatic-0.39/trimmomatic-0.39.jar PE -threads $params.cpu $fastq1 $fastq2 ${prefix}_1.trimmed.fastq.gz unpaired1.fastq.gz ${prefix}_2.trimmed.fastq.gz unpaired2.fastq.gz ILLUMINACLIP:$adapters:2:30:10:2:keepBothReads LEADING:3 TRAILING:3 MINLEN:36
-        echo "\n\n\$(date) --- Trimmomatic\n" > $launchDir/log.out 
-        cat .command.log >> $launchDir/log.out
         """ 
     }
 
@@ -99,7 +107,7 @@ if ( params.fastq2 == false ) {
     process alignToHumanGenomePE {
         
         cpus params.cpu
-	memory '48GB'
+		memory '48GB'
            
         input:
         path fastq1 from trimmed1
@@ -111,8 +119,6 @@ if ( params.fastq2 == false ) {
         
         """
         STAR --runThreadN $params.cpu --genomeDir $genomeDir --readFilesIn $fastq1 $fastq2 --outFileNamePrefix ${prefix} --outSAMtype BAM SortedByCoordinate --readFilesCommand zcat --outSAMattributes NM --twopassMode Basic --outFilterMultimapNmax 1 --outFilterMismatchNoverLmax 0.1
-        echo "\n\n\$(date) --- STAR\n" >> $launchDir/log.out
-        cat ${prefix}Log.final.out >> $launchDir/log.out
         """ 
     }
      
@@ -120,7 +126,7 @@ if ( params.fastq2 == false ) {
     process alignToMouseGenomePE {
         
         cpus params.cpu
-	memory '48GB'
+		memory '48GB'
                 
         input:
         path fastq1 from trimmed4mouse1
@@ -143,18 +149,18 @@ if ( params.filterMouse == true ) {
     
     process XenofilteR {
         
-    	if (params.keepInter == true) {
+        if (params.keepInter == true) {
         	publishDir "$launchDir", mode: 'copy'}
         cpus params.cpu
-	memory '16GB'
+		memory '16GB'
         
         input:
         path bam1 from aligned2human
         path bam2 from aligned2mouse
         
         output:
-        path "Filtered_bams/${prefix}_Filtered.bam" into filteredBam 
-
+        file "Filtered_bams/${prefix}_Filtered.bam" into filteredBam
+		
         """
         #!/usr/bin/Rscript --save
         library("XenofilteR")
@@ -165,11 +171,12 @@ if ( params.filterMouse == true ) {
         """ 
     }
     
+    
 } else {
 
     process skipXenofilteR {
         
-	if (params.keepInter == true) {
+		if (params.keepInter == true) {
             publishDir "$launchDir", mode: 'copy'}
         
         input:
@@ -177,10 +184,9 @@ if ( params.filterMouse == true ) {
         
         output:
         path bam into filteredBam 
-        val 'mouse read filtering skipped' into log
         
         """
-        echo mouse read filtering is not performed
+        echo "--- mouse read filtering was not performed ---"
         """
     }
 }
@@ -191,7 +197,6 @@ process markDuplicates {
     
     input:
     path bam from filteredBam
-    file ligfile from log
     
     output:
     path "${prefix}marked_duplicates.bam" into markedDuplicates 
@@ -347,7 +352,7 @@ process filterVariants {
     path "${prefix}filtered.vcf.gz" into filterd
 
     """
-    bcftools view --threads $params.cpu -i 'FILTER="PASS"' --output-type z --output-file ${prefix}filtered.vcf.gz ${prefix}.hardfilter.vcf.gz
+    bcftools view --threads $params.cpu -i 'FILTER="PASS" && FORMAT/DP >= 10 && FORMAT/AD[:1] >= 5' --output-type z --output-file ${prefix}filtered.vcf.gz ${prefix}.hardfilter.vcf.gz
     """ } 
 
 process IndexfilteredVariants {
@@ -453,7 +458,6 @@ process findCancerMutations {
     #!/usr/bin/python3
 
     import pandas as pd
-    import sys
 
     df = pd.read_csv('$varTable', sep='\t')
 
@@ -462,14 +466,7 @@ process findCancerMutations {
     df = df[df['[7]CNT'] >= 20]
 
     df = df[df['[9]COMMON'] != '1']
-
-    df['ref'] = df['[10]${prefix}:AD'].str.split(',', expand=True).iloc[:, 0].astype("int32")
-    df['alt'] = df['[10]${prefix}:AD'].str.split(',', expand=True).iloc[:, 1].astype("int32")
-    del df['[10]${prefix}:AD']
-    
-    df = df[df['alt'] >= 5]
-    df =df[df[['ref','alt']].sum(axis=1) >= 10]
-    
+   
     mutations = pd.read_csv('$cosmic', sep='\t', compression='gzip', encoding='latin1')
     mutations = mutations[['Tier','GENOMIC_MUTATION_ID', 'Mutation AA', 'Mutation Description', 'FATHMM prediction','FATHMM score']]
 
@@ -480,8 +477,8 @@ process findCancerMutations {
     df = df[df['FATHMM prediction'] == 'PATHOGENIC']
 
     df.drop_duplicates(subset='[6]ID', inplace=True)
-    df = df[['[5]Gene', '# [1]CHROM', '[2]POS', '[3]REF', '[4]ALT', '[7]CNT', '[8]RS', 'GENOMIC_MUTATION_ID', 'Mutation AA', 'Mutation Description', 'FATHMM score','ref','alt']]
-    df.rename(columns = {'[5]Gene': 'Gene', '# [1]CHROM': 'CHROM', '[2]POS': 'POS', '[3]REF':'REF','[4]ALT': 'ALT', '[7]CNT': 'COSMIC_CNT','[8]RS': 'RS(dbSNP)', 'Mutation AA': 'Mutation_AA', 'Mutation Description': 'Mutation_Description'}, inplace=True)
+    df = df[['[5]Gene', '# [1]CHROM', '[2]POS', '[3]REF', '[4]ALT', '[7]CNT', '[8]RS', 'GENOMIC_MUTATION_ID', 'Mutation AA', 'Mutation Description', 'FATHMM score','[10]$prefix:AD']]
+    df.rename(columns = {'[5]Gene': 'Gene', '# [1]CHROM': 'CHROM', '[2]POS': 'POS', '[3]REF':'REF','[4]ALT': 'ALT', '[7]CNT': 'COSMIC_CNT','[8]RS': 'RS(dbSNP)', 'Mutation AA': 'Mutation_AA', 'Mutation Description': 'Mutation_Description', '[10]$prefix:AD': 'AD'}, inplace=True)
 
     df.to_csv('${prefix}_cancer_mutations.csv', index=False)
     """  
