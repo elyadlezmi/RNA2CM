@@ -2,6 +2,8 @@
 
 // pipeline for identification of cancer related mutations
 
+prefix = params.prefix
+
 if ( params.fastq2 == false ) {
     
     process trimmomaticSE {
