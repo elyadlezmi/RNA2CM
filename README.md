@@ -45,6 +45,8 @@ Optional arguments (Note that the only required arguments are RNA-seq reads, out
 
 --cpu: (int, default 8).
 
+--prefix: the prefix that will be given to output files (str)
+
 --keepInter: Whether to keep intermediate alignment and VCF files (true/false, default: false). 
 
 --filterMouse: Whether to perform mouse contamination cleanup (true/false, default true).
