@@ -45,7 +45,7 @@ Optional arguments (Note that the only required arguments are RNA-seq reads, out
 
 --cpu: (int, default 8).
 
---prefix: the prefix that will be given to output files (str)
+--prefix: Output files have standard names but a custom prefix can be added (str)
 
 --keepInter: Whether to keep intermediate alignment and VCF files (true/false, default: false). 
 
