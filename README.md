@@ -1,6 +1,6 @@
-# RNA2CaM
+# RNA2CM
 
-RNA2CaM is a tool for the identification of cancer-related mutations from RNA-seq data
+RNA2CM is a tool for the identification of cancer-related mutations from RNA-seq data
 
 ![](./data/scheme.jpg)
 ## Pre-requisites 
