@@ -6,7 +6,7 @@ humanGTF = Channel.value('ftp://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_huma
 humanFasta = Channel.value('ftp://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_34/GRCh38.primary_assembly.genome.fa.gz')
 mouseGTF = Channel.value('ftp://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_mouse/release_M25/gencode.vM25.primary_assembly.annotation.gtf.gz')
 mouseFasta = Channel.value('ftp://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_mouse/release_M25/GRCm38.primary_assembly.genome.fa.gz')
-dbSNP = Channel.value('https://ftp.ncbi.nih.gov/snp/latest_release/VCF/GCF_000001405.38.gz')
+dbSNP = Channel.value('https://ftp.ncbi.nih.gov/snp/archive/b155/VCF/GCF_000001405.39.gz')
 
 // check for the cosmic files 
 
@@ -76,8 +76,8 @@ The files can be downloaded at https://cancer.sanger.ac.uk/cosmic/download
         val vcf from dbSNP
         
         output:
-        file "GCF_000001405.38.gz" into dbSNP4Rename
-        file "GCF_000001405.38.gz.tbi" into dbSNPIndex4Rename 
+        file "GCF_000001405.39.gz" into dbSNP4Rename
+        file "GCF_000001405.39.gz.tbi" into dbSNPIndex4Rename 
 
         """
         wget --no-check-certificate $vcf
