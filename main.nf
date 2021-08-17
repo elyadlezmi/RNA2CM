@@ -464,6 +464,6 @@ process findCancerMutations {
     df = df[['[5]Gene', '# [1]CHROM', '[2]POS', '[3]REF', '[4]ALT', '[7]CNT', '[8]RS', 'GENOMIC_MUTATION_ID', 'Mutation AA', 'Mutation Description', 'FATHMM score','[10]$prefix:AD']]
     df.rename(columns = {'[5]Gene': 'Gene', '# [1]CHROM': 'CHROM', '[2]POS': 'POS', '[3]REF':'REF','[4]ALT': 'ALT', '[7]CNT': 'COSMIC_CNT','[8]RS': 'RS(dbSNP)', 'Mutation AA': 'Mutation_AA', 'Mutation Description': 'Mutation_Description', '[10]$prefix:AD': 'AD'}, inplace=True)
 
-    df.to_csv('${prefix}cancer_mutations.csv', index=False)
+    df.to_csv('${prefix}_cancer_mutations.csv', index=False)
     """  
 }
